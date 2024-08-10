@@ -3,17 +3,17 @@
 	"tasks": [
 		{
 			"type": "cppbuild",
-			"label": "C/C++: gcc.exe build",
-			"command": "C:\\msys64\\mingw64\\bin\\gcc.exe",
+			"label": "C/C++: gcc build",
+			"command": "gcc",
 			"args": [
 				"-fdiagnostics-color=always",
 				"-g",
 				"${workspaceFolder}/src/*.c",
 				"-o",
-				"${workspaceFolder}/clox.exe"
+				"${workspaceFolder}/clox"
 			],
 			"options": {
-				"cwd": "C:\\msys64\\mingw64\\bin"
+				"cwd": ""
 			},
 			"problemMatcher": [
 				"$gcc"
@@ -22,7 +22,7 @@
 				"kind": "build",
 				"isDefault": true
 			},
-			"detail": "compiler: C:\\msys64\\mingw64\\bin\\gcc.exe"
+			"detail": "compiler: /usr/bin/gcc"
 		}
 	]
 }
