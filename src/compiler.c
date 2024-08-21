@@ -399,6 +399,7 @@ ParseRule rules[] = {
     [TOKEN_LESS] = {NULL, binary, PREC_COMPARISON},
     [TOKEN_LESS_EQUAL] = {NULL, binary, PREC_COMPARISON},
     [TOKEN_IDENTIFIER] = {variable, NULL, PREC_NONE},
+    [TOKEN_SWITCH] = {NULL, NULL, PREC_NONE},
     [TOKEN_STRING] = {string, NULL, PREC_NONE},
     [TOKEN_NUMBER] = {number, NULL, PREC_NONE},
     [TOKEN_AND] = {NULL, and_, PREC_AND},
@@ -538,6 +539,40 @@ static void forStatement() {
   endScope();
 }
 
+static void switchStatement() {
+  consume(TOKEN_LEFT_PAREN, "Expect '(' after 'switch'.");
+  expression();
+  consume(TOKEN_RIGHT_PAREN, "Expect ')' after expression.");
+
+  consume(TOKEN_LEFT_BRACE, "Expect '{'.");
+
+  // array for all case jump offsets
+  int caseJumps[256] = {0};
+  int curr = 0;
+  while (!check(TOKEN_EOF) && !check(TOKEN_RIGHT_BRACE)) {
+    if (match(TOKEN_CASE)) {
+      expression();
+      consume(TOKEN_COLON, "Expect ':' after case.");
+      emitByte(OP_PEEK_COMPARE);
+      int jump = emitJump(OP_JUMP_IF_FALSE);
+      emitByte(OP_POP);
+      statement();
+      caseJumps[curr++] = emitJump(OP_JUMP);
+      patchJump(jump);
+      emitByte(OP_POP);
+    } else if (match(TOKEN_DEFAULT)) {
+      consume(TOKEN_COLON, "Expect ':' after default case.");
+      statement();
+    }
+  }
+  for (int i = 0; i < curr; i++) {
+    patchJump(caseJumps[i]);
+  }
+  emitByte(OP_POP);
+
+  consume(TOKEN_RIGHT_BRACE, "Expect '}' after switch statement.");
+}
+
 static void ifStatement() {
   consume(TOKEN_LEFT_PAREN, "Expect '(' after 'if'.");
   expression();
@@ -587,6 +622,7 @@ static void synchronize() {
       case TOKEN_FUN:
       case TOKEN_VAR:
       case TOKEN_FOR:
+      case TOKEN_SWITCH:
       case TOKEN_IF:
       case TOKEN_WHILE:
       case TOKEN_PRINT:
@@ -621,6 +657,8 @@ static void statement() {
     whileStatement();
   } else if (match(TOKEN_FOR)) {
     forStatement();
+  } else if (match(TOKEN_SWITCH)) {
+    switchStatement();
   } else {
     expressionStatement();
   }

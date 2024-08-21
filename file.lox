@@ -1,9 +1,15 @@
 
-switch (true) {
-  case true: {
+switch (1) {
+  case 2: {
     print "true";
   }
+  case 1: {
+    print "here";
+  }
+  case (-1): {
+    print "never";
+  }
   default: {
-    print "default";
+    print "not here";
   }
 }

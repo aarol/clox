@@ -157,6 +157,12 @@ static InterpretResult run() {
         push(BOOL_VAL(valuesEqual(a, b)));
         break;
       }
+      case OP_PEEK_COMPARE: {
+        Value b = pop();
+        Value a = peek(0);
+        push(BOOL_VAL(valuesEqual(a,b)));
+        break;
+      }
       case OP_GREATER:
         BINARY_OP(BOOL_VAL, >);
         break;
