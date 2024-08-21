@@ -13,6 +13,7 @@ typedef enum {
   TOKEN_SEMICOLON,
   TOKEN_SLASH,
   TOKEN_STAR,
+  TOKEN_SWITCH,
   // One or two character tokens.
   TOKEN_BANG,
   TOKEN_BANG_EQUAL,

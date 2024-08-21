@@ -1,5 +1,9 @@
-var breakfast = "beignets";
-var beverage = "cafe au lait";
-breakfast = "beignets with " + beverage;
 
-print breakfast;
+switch (true) {
+  case true: {
+    print "true";
+  }
+  default: {
+    print "default";
+  }
+}
