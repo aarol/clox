@@ -7,7 +7,7 @@
     {
       "name": "(gdb) Launch",
       "type": "cppdbg",
-      "preLaunchTask": "C/C++: gcc.exe build",
+      "preLaunchTask": "C/C++: gcc build",
       "request": "launch",
       "program": "${workspaceFolder}/clox.exe",
       "args": ["file.lox"],

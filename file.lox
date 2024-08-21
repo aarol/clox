@@ -1,9 +1,1 @@
 
-switch (true) {
-  case true: {
-    print "true";
-  }
-  default: {
-    print "default";
-  }
-}
