@@ -3,5 +3,8 @@
     "type_traits": "c",
     "stdio.h": "c",
     "stdarg.h": "c"
+  },
+  "files.watcherExclude": {
+    "**/target": true
   }
 }
