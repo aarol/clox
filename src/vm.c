@@ -1,11 +1,10 @@
-#include "vm.h"
-
 #include <stdarg.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
 
+#include "vm.h"
 #include "chunk.h"
 #include "compiler.h"
 #include "debug.h"
@@ -62,6 +61,13 @@ void initVM() {
   vm.objects = NULL;
   initTable(&vm.globals);
   initTable(&vm.strings);
+
+  vm.bytesAllocated = 0;
+  vm.nextGC = 1024 * 1024;
+
+  vm.grayCount = 0;
+  vm.grayCapacity = 0;
+  vm.grayStack = NULL;
 
   defineNative("clock", clockNative);
 }
