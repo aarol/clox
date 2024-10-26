@@ -4,13 +4,14 @@
 #include <string.h>
 #include <time.h>
 
-#include "vm.h"
 #include "chunk.h"
 #include "compiler.h"
 #include "debug.h"
 #include "memory.h"
 #include "object.h"
 #include "value.h"
+#include "vm.h"
+
 
 VM vm;
 
@@ -168,8 +169,8 @@ static bool isFalsey(Value value) {
 }
 
 static void concatenate() {
-  ObjString *b = AS_STRING(pop());
-  ObjString *a = AS_STRING(pop());
+  ObjString *b = AS_STRING(peek(0));
+  ObjString *a = AS_STRING(peek(1));
 
   int length = a->length + b->length;
   char *chars = ALLOCATE(char, length + 1);
@@ -178,6 +179,8 @@ static void concatenate() {
   chars[length] = '\0';
 
   ObjString *result = takeString(chars, length);
+  pop();
+  pop();
   push(OBJ_VAL(result));
 }
 
