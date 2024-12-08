@@ -22,6 +22,7 @@ typedef struct {
   Value *stackTop;
   Table globals;
   Table strings;
+  ObjString *initString;
   ObjUpvalue *openUpvalues;
 
   size_t bytesAllocated;
@@ -29,7 +30,7 @@ typedef struct {
   Obj *objects;
   int grayCount;
   int grayCapacity;
-  Obj** grayStack;
+  Obj **grayStack;
 } VM;
 
 typedef enum {
